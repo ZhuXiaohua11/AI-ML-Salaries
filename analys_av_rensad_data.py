@@ -87,6 +87,7 @@ plt.show()
 
 
 
+df_encoded = df_clean.copy()
 
 df_encoded['experience_level'] = df_encoded['experience_level'].map({'EN':0, 'MI':1, 'SE':2, 'EX':3})
 df_encoded['employment_type'] = df_encoded['employment_type'].map({'PT':0, 'FT':1, 'CT':2, 'FL':3})
@@ -103,3 +104,45 @@ plt.figure(figsize=(10,8))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
 plt.title('Korrelationsmatris för numeriska variabler')
 plt.show()
+
+
+# Visualisera löner för varje kategori
+plt.figure(figsize=(12, 8))
+sns.boxplot(x='experience_level', y='salary_in_usd', data=df_encoded)
+plt.title('Salary by Experience Level')
+plt.show()
+
+sns.boxplot(x='remote_ratio', y='salary_in_usd', data=df_encoded)
+plt.title('Salary by Remote Work Ratio')
+plt.show()
+
+sns.boxplot(x='employment_type', y='salary_in_usd', data=df_encoded)
+plt.title('Salary by Employment Type')
+plt.show()
+
+sns.boxplot(x='company_size', y='salary_in_usd', data=df_encoded)
+plt.title('Salary by Company Size')
+plt.show()
+
+
+
+
+
+# Kopiera df_clean och koda kategoriska variabler
+df_encoded = df_clean.copy()
+
+
+# ANOVA-test för Experience Level
+groups = [df_encoded[df_encoded['experience_level'] == level]['salary_in_usd'] for level in df_encoded['experience_level'].unique()]
+f_statistic, p_value = stats.f_oneway(*groups)
+print(f"ANOVA test for Experience Level: F-statistic = {f_statistic}, p-value = {p_value}")
+
+# ANOVA-test för Employment Type
+groups = [df_encoded[df_encoded['employment_type'] == etype]['salary_in_usd'] for etype in df_encoded['employment_type'].unique()]
+f_statistic, p_value = stats.f_oneway(*groups)
+print(f"ANOVA test for Employment Type: F-statistic = {f_statistic}, p-value = {p_value}")
+
+# ANOVA-test för Company Size
+groups = [df_encoded[df_encoded['company_size'] == size]['salary_in_usd'] for size in df_encoded['company_size'].unique()]
+f_statistic, p_value = stats.f_oneway(*groups)
+print(f"ANOVA test for Company Size: F-statistic = {f_statistic}, p-value = {p_value}")
