@@ -1,5 +1,5 @@
 # AI-ML-Salaries
-Analyze Data Science job salaries from 2020 to 2023
+Analyze Data Science job salaries from 2020 to 2025
 
 📚 Korrigerad sammanfattning av datarensning
 Vi har nu färdigställt datarensningen av vårt dataset. Följande steg har genomförts:
